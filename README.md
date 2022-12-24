@@ -34,7 +34,7 @@ The TFT display needs to be initialized before it is ready to use. All necessary
 
 ```typescript
 // Initialize TFT Display
-TC-MKCD.init()
+TCMKCD.init()
 ```
 
 ## Single pixels
@@ -42,7 +42,7 @@ Single pixels can be shown on the screen. The function takes three values. The x
 
 ```typescript
 // Draw a single red pixel
-TC-MKCD.drawPixel(10, 10, Color.Red)
+TCMKCD.drawPixel(10, 10, Color.Red)
 ```
 
 ## Straight lines
@@ -50,7 +50,7 @@ Straight lines can be drawn across the screen (horizontal, vertical and diagonal
 
 ```typescript
 // Draw a straight blue line
-TC-MKCD.drawLine(0, 0, 100, 100, Color.Blue)
+TCMKCD.drawLine(0, 0, 100, 100, Color.Blue)
 ```
 
 ## Rectangles
@@ -58,7 +58,7 @@ Rectangles can be drawn on the screen. The function takes four five values: The 
 
 ```typescript
 // Draw a yellow rectangle
-TC-MKCD.drawRectangle(0, 0, 100, 120, Color.Yellow)
+TCMKCD.drawRectangle(0, 0, 100, 120, Color.Yellow)
 ```
 
 ## Circles
@@ -66,7 +66,7 @@ Circles can be drawn on the screen as well. Depending on the size of the circle,
 
 ```typescript
 // Draw a green circle
-TC-MKCD.drawCircle(50, 50, 50, Color.Green)
+TCMKCD.drawCircle(50, 50, 50, Color.Green)
 ```
 
 ## Show text
@@ -74,7 +74,7 @@ You can also show text on the display. The font size can be set in 5 different z
 
 ```typescript
 // Show white text with black background
-TC-MKCD.showString("I am your RB-TFT1.8!", 10, 10, 1, Color.White, Color.Black)
+TCMKCD.showString("I am your RB-TFT1.8!", 10, 10, 1, Color.White, Color.Black)
 ```
 
 ## Clear screen
@@ -82,7 +82,7 @@ New objects never replace already drawn objects on the screen. Instead, they are
 
 ```typescript
 // Clear screen - replaces whole screen with a black rectangle
-TC-MKCD.clearScreen()
+TCMKCD.clearScreen()
 ```
 
 ## Turn off display
@@ -90,7 +90,7 @@ You can turn off the display. In this mode, the frame memory is disabled and a b
 
 ```typescript
 // Turn off display
-TC-MKCD.turnOff()
+TCMKCD.turnOff()
 ```
 
 ## Turn on display
@@ -98,7 +98,7 @@ You turn the display on again and enable the output from the frame memory. The f
 
 ```typescript
 // Turn on display
-TC-MKCD.turnOn()
+TCMKCD.turnOn()
 ```
 
 ## Supported targets

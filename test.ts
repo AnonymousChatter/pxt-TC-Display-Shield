@@ -1,35 +1,35 @@
 // Initialize TFT Display
-TC-MKCD.init()
+TCMKCD.init()
 
 // Clear screen - replaces whole screen with a black rectangle
-TC-MKCD.clearScreen()
+TCMKCD.clearScreen()
 
 // Draw a single red pixel
-TC-MKCD.drawPixel(10, 10, Color.Red)
+TCMKCD.drawPixel(10, 10, Color.Red)
 basic.pause(1000)
 
 // Draw a straight blue line
-TC-MKCD.drawLine(0, 0, 100, 100, Color.Blue)
+TCMKCD.drawLine(0, 0, 100, 100, Color.Blue)
 basic.pause(1000)
 
 // Draw a yellow rectangle
-TC-MKCD.drawRectangle(0, 0, 100, 120, Color.Yellow)
+TCMKCD.drawRectangle(0, 0, 100, 120, Color.Yellow)
 basic.pause(1000)
 
 // Draw a green circle
-TC-MKCD.drawCircle(50, 50, 50, Color.Green)
+TCMKCD.drawCircle(50, 50, 50, Color.Green)
 basic.pause(1000)
 
 // Clear screen - replaces whole screen with a black rectangle
-TC-MKCD.clearScreen()
+TCMKCD.clearScreen()
 
 // Show white text with black background
-TC-MKCD.showString("Hello TomatoCube!", 10, 10, 1, Color.White, Color.Black)
+TCMKCD.showString("Hello TomatoCube!", 10, 10, 1, Color.White, Color.Black)
 basic.pause(1000)
 
 // Turn off display
-TC-MKCD.turnOff()
+TCMKCD.turnOff()
 basic.pause(1000)
 
 // Turn on display
-TC-MKCD.turnOn()
+TCMKCD.turnOn()

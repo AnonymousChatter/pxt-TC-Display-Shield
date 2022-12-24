@@ -45,8 +45,8 @@ enum Color {
 /**
   * TC-MAKECODE-SHIELD Block
   */
-  //% color="#275C6B" icon="\uf26c" weight=95 block="RB-TFT18-V2"
- namespace TC-MKCD {
+  //% color="#275C6B" icon="\uf26c" weight=95 block="TC-MAKECODE-SHIELD"
+ namespace TCMKCD {
      // Display commands & constants
      let TFTWIDTH = 130
      let TFTHEIGHT = 162
