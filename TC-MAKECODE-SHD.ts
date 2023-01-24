@@ -50,6 +50,8 @@ enum Color {
      // Display commands & constants
      let TFTWIDTH = 130
      let TFTHEIGHT = 162
+     
+     let TC_ARCADE_I2C_ADDR = 0x44
 
      /**
       * TFT Commands
@@ -402,6 +404,46 @@ enum Color {
      export function turnOn(): void {
          send(TFTCommands.DISPON, [])
      }
+    
+    //% block="Set Shield GPIO:%pinSelection with value:%pinState"
+    //% weight=50
+    //% pinSelection.min=0 pinSelection.max=2
+    //% pinState.min=0 pinState.max=1
+    export function set_GPIO(pinSelection: number, pinState:number): number {
+         // pinSelection 0 -> PA7 - PA7_LED
+         // pinSelection 1 -> PA5 - LCD_RST
+         // pinSelection 2 -> PA6 - LCD_BL
+       if (((pinSelection == 0) || (pinSelection == 1) || (pinSelection == 2)) && 
+           ((pinState == 1) || (pinState == 0))) {
+           pins.i2cWriteNumber(
+               TC_ARCADE_I2C_ADDR,
+               0x1 | pinSelection << 8 | pinState << 16,    // 0x01, 0x00, 0x01
+               NumberFormat.UInt32LE,
+               false
+           )
+       }
+       // basic.pause(100)
+       let readbuf = pins.i2cReadNumber(TC_ARCADE_I2C_ADDR, NumberFormat.UInt16LE, true)
+       let readbuf2 = pins.i2cReadNumber(TC_ARCADE_I2C_ADDR, NumberFormat.UInt16LE, false)
+
+       return ((readbuf2 >> 8) == 1) ? 0 : 1;
+   }
+   
+   //% block="Read Shield Buttons"
+   //% weight=45
+   export function read_Buttons(): number {
+       pins.i2cWriteNumber(
+           TC_ARCADE_I2C_ADDR,
+           0x2,        // 0x00, 0x00, 0x02
+           NumberFormat.UInt32LE,
+           false
+       )
+       basic.pause(100)
+       let readbuf = pins.i2cReadNumber(TC_ARCADE_I2C_ADDR, NumberFormat.UInt16LE, true)
+       let readbuf2 = pins.i2cReadNumber(TC_ARCADE_I2C_ADDR, NumberFormat.UInt16LE, false)
+
+       return (readbuf2 >> 8);
+   }
 
 
  }
