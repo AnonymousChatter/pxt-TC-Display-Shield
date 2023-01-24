@@ -411,13 +411,13 @@ enum Color {
     
      //% block="Turn BackLight off"
      //% weight=50
-     export function turnOff(): void {
+     export function turnBLOff(): void {
          set_GPIO(2, 0)
      }
 
      //% block="Turn BackLight on"
      //% weight=45
-     export function turnOn(): void {
+     export function turnBLOn(): void {
          set_GPIO(2, 1)
      }
     //% block="Set Shield GPIO:%pinSelection with value:%pinState"
