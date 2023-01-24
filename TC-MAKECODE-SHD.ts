@@ -170,9 +170,11 @@ enum Color {
          // set SPI frequency
          pins.spiFrequency(4000000)
          // Hardware reset
-         pins.digitalWritePin(DigitalPin.P16, 0)
+         //pins.digitalWritePin(DigitalPin.P16, 0)
+         set_GPIO(1, 0)
          basic.pause(100)
-         pins.digitalWritePin(DigitalPin.P16, 1)
+         //pins.digitalWritePin(DigitalPin.P16, 1)
+         set_GPIO(1, 1)
 
          // Software reset
          send(TFTCommands.SWRESET, [1])
@@ -405,8 +407,19 @@ enum Color {
          send(TFTCommands.DISPON, [])
      }
     
+     //% block="Turn BackLight off"
+     //% weight=50
+     export function turnOff(): void {
+         set_GPIO(2, 0)
+     }
+
+     //% block="Turn BackLight on"
+     //% weight=45
+     export function turnOn(): void {
+         set_GPIO(2, 1)
+     }
     //% block="Set Shield GPIO:%pinSelection with value:%pinState"
-    //% weight=50
+    //% weight=40
     //% pinSelection.min=0 pinSelection.max=2
     //% pinState.min=0 pinState.max=1
     export function set_GPIO(pinSelection: number, pinState:number): number {
@@ -430,7 +443,7 @@ enum Color {
    }
    
    //% block="Read Shield Buttons"
-   //% weight=45
+   //% weight=35
    export function read_Buttons(): number {
        pins.i2cWriteNumber(
            TC_ARCADE_I2C_ADDR,
