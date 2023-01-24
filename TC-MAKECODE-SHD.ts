@@ -48,8 +48,8 @@ enum Color {
   //% color="#275C6B" icon="\uf26c" weight=95 block="TC-MAKECODE-SHIELD"
  namespace TCMKCD {
      // Display commands & constants
-     let TFTWIDTH = 130
-     let TFTHEIGHT = 162
+     let TFTWIDTH = 162
+     let TFTHEIGHT = 130
      
      let TC_ARCADE_I2C_ADDR = 0x44
 
