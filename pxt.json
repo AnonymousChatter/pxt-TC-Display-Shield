@@ -1,6 +1,6 @@
 {
     "name": "TC-MakeCode-Shield",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "description": "MakeCode Package for TomatoCube MakeCode Arcade Shield.",
     "license": "MIT",
     "dependencies": {
