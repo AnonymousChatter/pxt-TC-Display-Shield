@@ -45,6 +45,27 @@ enum Color {
 }
 
 /**
+ * Buttons
+ */
+enum ButtonID {
+      	//% block="Up"
+   	Up = 5,
+	//% block="Down"
+   	Down = 4,
+	//% block="Left"
+   	Left = 6,
+	//% block="Right"
+   	Right = 3,
+	//% block="ButtonA"
+   	ButtonA = 2,
+	//% block="ButtonB"
+   	ButtonB = 1,
+	//% block="Menu"
+   	Menu = 0
+}
+
+
+/**
   * TC-MAKECODE-SHIELD Block
   */
   //% color="#275C6B" icon="\uf26c" weight=95 block="TC-MAKECODE-SHIELD"
@@ -462,5 +483,27 @@ enum Color {
        return (readbuf2 >> 8);
    }
 
+   /**
+   * Returns the Button code of a specific Button.
+   * @param ButtonID the buttonID
+   */
+  //% button.fieldEditor="gridpicker"
+  //% button.fieldOptions.columns=2
+  //% button.fieldOptions.tooltips="false"
+  //% block="Is Button Press %buttonID"
+  //% weight=30
+  export function isButtonPress(buttonID: ButtonID): boolean {
+    pins.i2cWriteNumber(
+           TC_ARCADE_I2C_ADDR,
+           0x2,        // 0x00, 0x00, 0x02
+           NumberFormat.UInt32LE,
+           false
+       )
+       basic.pause(100)
+       let readbuf = pins.i2cReadNumber(TC_ARCADE_I2C_ADDR, NumberFormat.UInt16LE, true)
+       let readbuf2 = pins.i2cReadNumber(TC_ARCADE_I2C_ADDR, NumberFormat.UInt16LE, false)
 
+       return ((((readbuf2 >> 8) >> buttonID) & 0x01) == 0);
+  }
+	 
  }
