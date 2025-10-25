@@ -48,21 +48,22 @@ enum Color {
  * Buttons
  */
 enum ButtonID {
-      	//% block="Up"
-   	Up = 5,
+    //% block="Up"
+   	Up = 0,
 	//% block="Down"
-   	Down = 4,
+   	Down = 1,
 	//% block="Left"
-   	Left = 6,
+   	Left = 2,
 	//% block="Right"
    	Right = 3,
 	//% block="ButtonA"
-   	ButtonA = 2,
+   	ButtonA = 5,
 	//% block="ButtonB"
-   	ButtonB = 1,
+   	ButtonB = 6,
 	//% block="Menu"
-   	Menu = 0
+   	Menu = 4
 }
+
 
 
 /**
@@ -74,7 +75,7 @@ enum ButtonID {
      let TFTWIDTH = 162
      let TFTHEIGHT = 130
      
-     let TC_ARCADE_I2C_ADDR = 0x44
+     let TC_ARCADE_I2C_ADDR = 0x18
 
      /**
       * TFT Commands
@@ -193,11 +194,11 @@ enum ButtonID {
          // set SPI frequency
          pins.spiFrequency(4000000)
          // Hardware reset
-         //pins.digitalWritePin(DigitalPin.P16, 0)
-         set_GPIO(1, 0)
+         pins.digitalWritePin(DigitalPin.P16, 0)
+         // set_GPIO(1, 0)
          basic.pause(100)
-         //pins.digitalWritePin(DigitalPin.P16, 1)
-         set_GPIO(1, 1)
+         pins.digitalWritePin(DigitalPin.P16, 1)
+         // set_GPIO(1, 1)
 
          // Software reset
          send(TFTCommands.SWRESET, [1])
@@ -435,52 +436,37 @@ enum ButtonID {
      //% block="Turn BackLight off"
      //% weight=50
      export function turnBLOff(): void {
-         set_GPIO(2, 0)
+         set_BL(0)
      }
 
      //% block="Turn BackLight on"
      //% weight=45
      export function turnBLOn(): void {
-         set_GPIO(2, 1)
+         set_BL(1)
      }
-    //% block="Set Shield GPIO:%pinSelection with value:%pinState"
+	 
+    //% block="Set Shield BackLight Value:%pinState"
     //% weight=40
-    //% pinSelection.min=0 pinSelection.max=2
     //% pinState.min=0 pinState.max=1
-    export function set_GPIO(pinSelection: number, pinState:number): number {
-         // pinSelection 0 -> PA7 - PA7_LED
-         // pinSelection 1 -> PA5 - LCD_RST
-         // pinSelection 2 -> PA6 - LCD_BL
-       if (((pinSelection == 0) || (pinSelection == 1) || (pinSelection == 2)) && 
-           ((pinState == 1) || (pinState == 0))) {
-           pins.i2cWriteNumber(
-               TC_ARCADE_I2C_ADDR,
-               0x1 | pinSelection << 8 | pinState << 16,    // 0x01, 0x00, 0x01
-               NumberFormat.UInt32LE,
-               false
-           )
-       }
-       // basic.pause(100)
-       let readbuf = pins.i2cReadNumber(TC_ARCADE_I2C_ADDR, NumberFormat.UInt16LE, true)
-       let readbuf2 = pins.i2cReadNumber(TC_ARCADE_I2C_ADDR, NumberFormat.UInt16LE, false)
+    export function set_BL(pinState: number) {
+		let I2C_Data = [0, 0, 0];
+	    I2C_Data[0] = 0x02;
+	    I2C_Data[1] = pinState;
+	    I2C_Data[2] = 0x00;
 
-       return ((readbuf2 >> 8) == 1) ? 0 : 1;
-   }
+	    pins.i2cWriteBuffer(
+	        TC_ARCADE_I2C_ADDR,
+	        Buffer.fromArray(I2C_Data),
+	        false
+	    );
+	}
    
    //% block="Read Shield Buttons"
    //% weight=35
    export function read_Buttons(): number {
-       pins.i2cWriteNumber(
-           TC_ARCADE_I2C_ADDR,
-           0x2,        // 0x00, 0x00, 0x02
-           NumberFormat.UInt32LE,
-           false
-       )
-       basic.pause(100)
-       let readbuf = pins.i2cReadNumber(TC_ARCADE_I2C_ADDR, NumberFormat.UInt16LE, true)
-       let readbuf2 = pins.i2cReadNumber(TC_ARCADE_I2C_ADDR, NumberFormat.UInt16LE, false)
-
-       return (readbuf2 >> 8);
+       let readbuf = pins.i2cReadBuffer(TC_ARCADE_I2C_ADDR, pins.sizeOf(NumberFormat.UInt8LE),false)
+       let JoyReading = readbuf[0]
+	   return JoyReading
    }
 
    /**
@@ -493,17 +479,11 @@ enum ButtonID {
   //% block="Is Button Press %buttonID"
   //% weight=30
   export function isButtonPress(buttonID: ButtonID): boolean {
-    pins.i2cWriteNumber(
-           TC_ARCADE_I2C_ADDR,
-           0x2,        // 0x00, 0x00, 0x02
-           NumberFormat.UInt32LE,
-           false
-       )
-       basic.pause(100)
-       let readbuf = pins.i2cReadNumber(TC_ARCADE_I2C_ADDR, NumberFormat.UInt16LE, true)
-       let readbuf2 = pins.i2cReadNumber(TC_ARCADE_I2C_ADDR, NumberFormat.UInt16LE, false)
-
-       return ((((readbuf2 >> 8) >> buttonID) & 0x01) == 0);
+       let readbuf = pins.i2cReadBuffer(TC_ARCADE_I2C_ADDR, pins.sizeOf(NumberFormat.UInt8LE),false)
+       let JoyReading = readbuf[0]
+	  
+       return (((JoyReading >> buttonID) & 0x01) == 1);
   }
 	 
  }
+
