@@ -447,7 +447,7 @@ enum ButtonID {
 	 
     //% block="Set Shield BackLight Value:%pinState"
     //% weight=40
-    //% pinState.min=0 pinState.max=1
+    //% pinState.min=0 pinState.max=128
     export function set_BL(pinState: number) {
 		let I2C_Data = [0, 0, 0];
 	    I2C_Data[0] = 0x02;
@@ -486,4 +486,5 @@ enum ButtonID {
   }
 	 
  }
+
 
